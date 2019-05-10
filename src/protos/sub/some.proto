@@ -1,0 +1,9 @@
+// some.proto
+syntax = "proto3";
+package sub;
+
+import "google/protobuf/any.proto";
+
+message Nested {
+  google.protobuf.Any nnn = 1;
+}

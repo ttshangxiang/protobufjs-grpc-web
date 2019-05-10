@@ -1,0 +1,17 @@
+// greeter.proto
+syntax = "proto3";
+
+import "sub/some.proto";
+
+service Greeter {
+    rpc SayHello (HelloRequest) returns (HelloReply) {}
+    rpc TestNested (HelloRequest) returns (Nested) {}
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+message HelloReply {
+    string message = 1;
+}
