@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "webpack",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "build-proto": "node utils/build-proto.js"
   },
   "repository": {
     "type": "git",

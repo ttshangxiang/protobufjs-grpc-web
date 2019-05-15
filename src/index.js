@@ -3,7 +3,9 @@ const createRpcImpl = require('./createRpcImpl');
 const { unpackAll } = require('./unpack');
 
 // 加载proto
-const root = require('./protos/greeter.proto');
+// const root = require('./protos/greeter.proto');
+// 加载所有proto打包生成的js文件
+const root = require('./protoRoot');
 var Greeter = root.lookup("Greeter");
 // 创建rpc
 var greeter = Greeter.create(createRpcImpl('http://localhost:3000'));
