@@ -9,5 +9,5 @@ const protos = glob.sync(protoPath);
 pbjs.main([ "--target", "json-module", '-w', 'commonjs', ...protos], function(err, output) {
   if (err)
     throw err;
-  fs.writeFileSync(path.resolve(__dirname, '../src/protoRoot.js'), '/* eslint-disable */\n' + output);
+  fs.writeFileSync(path.resolve(__dirname, '../src/protojs/protoRoot.js'), '/* eslint-disable */\n' + output);
 });
