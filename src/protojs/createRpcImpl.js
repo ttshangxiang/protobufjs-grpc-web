@@ -15,13 +15,7 @@ function isFunction (obj) {
  * @returns grpc.web.AbstractClientBase.MethodInfo
  */
 function createMethodInfo (method) {
-  const requestSerializeFn = function (request) {
-    return request
-  }
-  const responseDeserializeFn = function (buffer) {
-    return method.resolvedResponseType.decode(buffer)
-  }
-  return new grpc.AbstractClientBase.MethodInfo(method.resolvedResponseType, requestSerializeFn, responseDeserializeFn)
+  return new grpc.AbstractClientBase.MethodInfo(null, arg => arg, arg => arg)
 }
 
 /**
@@ -37,16 +31,8 @@ function createRpcImpl (hostname, credentials, options, metadata) {
   if (!metadata) metadata = {}
   const _client = new grpc.GrpcWebClientBase(options)
   return function (method, requestData, callback) {
-    // 拦截
-    const intercept = function (err, response) {
-      if (options.intercept && isFunction(options.intercept)) {
-        options.intercept(err, response, callback)
-      } else {
-        callback(err, response)
-      }
-    }
     const url = hostname + '/' + method.parent.fullName.slice(1) + '/' + method.name
-    _client.rpcCall(url, requestData, metadata, createMethodInfo(method), intercept)
+    _client.rpcCall(url, requestData, metadata, createMethodInfo(method), callback)
   }
 }
 

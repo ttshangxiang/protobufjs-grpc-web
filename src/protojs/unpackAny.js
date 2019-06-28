@@ -1,4 +1,7 @@
 
+import ConversionOptions from './ConversionOptions'
+import util from 'protobufjs/src/util'
+
 const typeCache = {}
 
 /**
@@ -31,12 +34,18 @@ export function unpackAny (o, roots, reg) {
       return o
     }
     typeCache[typestr] = type
-    return type.decode(o.value)
+    if (typeof o.value === 'string') {
+      let buffer
+      util.base64.decode(o.value, buffer = util.newBuffer(util.base64.length(o.value)), 0)
+      o.value = buffer
+    }
+    return type.toObject(type.decode(o.value), ConversionOptions)
   }
   return o
 }
 
 export function unpackAnyAll (o, roots, reg) {
+  o = unpackAny(o, roots, reg)
   for (let key in o) {
     if (!o.hasOwnProperty(key)) {
       continue
